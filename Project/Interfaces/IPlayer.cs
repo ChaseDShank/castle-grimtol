@@ -1,11 +1,10 @@
 using System.Collections.Generic;
 
-namespace CastleGrimtol.Project
+namespace CastleGrimtol.Game
 {
     public interface IPlayer
     {
-        int Score { get; set; }
-
+        int Health { get; set; }
         List<Item> Inventory { get; set; }
 
     }

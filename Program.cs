@@ -1,35 +1,45 @@
 ﻿using System;
-using CastleGrimtol.Project;
+using System.Collections.Generic;
+using CastleGrimtol.Game;
 
 namespace CastleGrimtol {
     public class Program {
         public static void Main (string[] args) {
+            Game.Game game = new Game.Game ();
+            game.Playing = true;
 
-            Game game = new Game ();
-            game.playing = true;
             game.Setup ();
-            game.Help ();
+            game.BuildRooms ();
+            game.Look (game.CurrentRoom);
 
-            while (game.playing) {
-                Console.WriteLine ("this is the first room");
-                string command = game.GetCommand ();
-                if (command == "q" || command == "quit") {
-                    Console.WriteLine ("Are you sure you want to quit? (Y/N)");
-                    string affirmation = Console.ReadLine ().ToLower ();
-                    if (affirmation == "y" || affirmation == "yes") {
-                        Console.WriteLine ("\nAight, peace homes");
-                        game.playing = false;
-                    } else if (affirmation == "n" || affirmation == "no") {
-                        continue;
-                    }
-                   
+            while (game.Playing) {
+                Console.BackgroundColor = ConsoleColor.White;
+                Console.ForegroundColor = ConsoleColor.Black;
+                string userChoice = game.GetUserInput ().ToLower ();
+                string[] userAction = userChoice.Split (' ');
+                Room nextRoom;
+                game.CurrentRoom.Exits.TryGetValue (userAction[0], out nextRoom);
 
-                } else if (command == "") {
-                    Console.WriteLine ("wat?");
-                } else if (command == "help" || command == "h") {
+                if (userAction[0] == "look" || userAction[0] == "l") {
+                    game.Look (game.CurrentRoom);
+                } else if (userAction[0] == "quit" || userAction[0] == "q") {
+                    game.Playing = game.Quit (game.Playing);
+                } else if (userAction[0] == "help" || userAction[0] == "h") {
                     game.Help ();
+                } else if (userAction[0] == "take" && userAction[1] != null) {
+                    game.TakeItem (userAction[1]);
+                } else if (userAction[0] == "inventory" || userAction[0] == "inv") {
+                    game.CurrentPlayer.ShowInventory (game.CurrentPlayer);
+                } else if (userAction[0] == "use" || userAction[0] == "u") {
+                    game.UseItem (userAction[1]);
+                    game.Look (game.CurrentRoom);
+                } else if (nextRoom != null) {
+                    game.CurrentRoom = nextRoom;
+                    System.Console.WriteLine ("\n");
+                    game.Look (game.CurrentRoom);
+                } else {
+                    Console.WriteLine ("Not sure what you are trying to do...");
                 }
-
             }
         }
     }
