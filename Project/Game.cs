@@ -10,6 +10,9 @@ namespace CastleGrimtol.Game {
         public void Setup () {
             Console.Clear ();
             CurrentPlayer = new Player ();
+            if (CurrentPlayer.CharacterName == "D$") {
+                Win ();
+            }
             Rooms = new List<Room> ();
             Console.WriteLine ("\n\n\nPress 'ENTER' to continue");
             string input = Console.ReadLine ();
@@ -25,6 +28,7 @@ namespace CastleGrimtol.Game {
             string input = Console.ReadLine ();
             return input;
         }
+
         public void Reset () {
             Playing = true;
 
@@ -42,7 +46,7 @@ namespace CastleGrimtol.Game {
                 Console.WriteLine ("Bang!");
                 Console.ForegroundColor = ConsoleColor.Black;
                 Console.WriteLine ("Ammunition remaining: {0}", CurrentPlayer.Ammo);
-                
+
             }
             if (item != null && item.Name.ToLower () == "gun" && CurrentPlayer.Ammo == 0) {
                 Console.ForegroundColor = ConsoleColor.Red;
@@ -67,58 +71,112 @@ namespace CastleGrimtol.Game {
             }
             if (itemName.ToLower () == "ammunition" || itemName.ToLower () == "ammo") {
                 CurrentPlayer.Ammo++;
+                Console.ForegroundColor = ConsoleColor.DarkGreen;
+                Console.WriteLine (@"
+                1 round added
+                Ammo: {0}", CurrentPlayer.Ammo);
+                Console.ForegroundColor = ConsoleColor.Black;
 
             }
-            if (itemName.ToLower () == "gun") {
+            if (itemName.ToLower () == "gun" && CurrentPlayer.Inventory.Contains (item)) {
                 Console.ForegroundColor = ConsoleColor.Magenta;
                 Console.WriteLine ("\"This might come in handy\"");
 
             }
         }
         public Boolean Quit (Boolean playing) {
+            Console.Clear();
             Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine ("Are you sure you want to quit? Y/N");
+            Console.WriteLine ("\nAre you sure you want to quit? Y/N\n\n\n");
             Console.ForegroundColor = ConsoleColor.Blue;
             string input = Console.ReadLine ().ToLower ();
             Console.ForegroundColor = ConsoleColor.Black;
 
             if (input == "y" || input == "yes") {
                 Console.Clear ();
-                Console.WriteLine ("Goodbye {0}", CurrentPlayer.CharacterName);
+                Console.WriteLine (@"
+            Goodbye {0}, sucks to suck.", CurrentPlayer.CharacterName);
+                Console.WriteLine (@"
+            
+            Final Health: {0}
+            Final Score: {1}",
+                CurrentPlayer.Health, CurrentPlayer.Score);
                 return playing = false;
             } else {
-                Console.WriteLine ("OK");
+                Console.WriteLine ("Good choice!");
+                Look(CurrentRoom);
                 return playing = true;
             }
         }
 
+        public void Win () {
+            Console.Clear ();
+            if (CurrentPlayer.CharacterName == "D$") {
+                Console.WriteLine (@"
+                You are too powerfull D$ !!, 
+                You automatically win");
+            }
+            else{
+            Console.ForegroundColor = ConsoleColor.DarkMagenta;
+            Console.WriteLine (@"
+            You have beat the game {0}
+            Final Health: {1}
+            Final Score: {2}",
+                CurrentPlayer.CharacterName, CurrentPlayer.Health, CurrentPlayer.Score);
+            }
+            Playing = false;
+        }
+
+        public void Lose () {
+            Console.Clear ();
+            Console.WriteLine (@"
+            {0}, you DIED!
+            Final Health: {1}
+            Final Score: {2}",
+                CurrentPlayer.CharacterName, CurrentPlayer.Health, CurrentPlayer.Score);
+            Playing = false;
+        }
+        public void CheckScore () {
+            if (CurrentPlayer.Score == 4) {
+                Win ();
+            }
+            if (CurrentPlayer.Health == 0) {
+                Lose ();
+            }
+        }
 
         public void Reload () {
             CurrentPlayer.Ammo++;
         }
         public void Fire () {
             CurrentPlayer.Ammo--;
-            if(CurrentRoom.Zombies != 0){
-            CurrentRoom.Zombies--;
-            Console.WriteLine (@"
+            if (CurrentRoom.Zombies != 0) {
+                CurrentRoom.Zombies--;
+                CurrentPlayer.Score++;
+                Console.WriteLine (@"
             Zombie down!
             {0} remaining", CurrentRoom.Zombies);
-            }
-            else{
-            Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine (@"
+            } else {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine (@"
             You shoot randomly and the bullet ricochettes and hits you");
-            CurrentPlayer.Health --;
-            Console.ForegroundColor = ConsoleColor.Black;
+                CurrentPlayer.Health--;
+                Console.ForegroundColor = ConsoleColor.Black;
             }
-            Console.WriteLine(@"
-            Your Health: {0}", CurrentPlayer.Health);
+            Console.WriteLine (@"
+            Health: {0}
+            Score:  {1}", CurrentPlayer.Health, CurrentPlayer.Score);
+            CheckScore ();
             Console.Beep (400, 50);
 
         }
         public void Look (Room room) {
+
             Console.BackgroundColor = ConsoleColor.White;
             Console.ForegroundColor = ConsoleColor.Black;
+            Console.WriteLine(@"
+Health: {0}
+Score {1}", CurrentPlayer.Health, CurrentPlayer.Score);
             Console.WriteLine (@"
 ______________________________________________________________________________________________________________________");
             Console.Write ("Current Location: ");
@@ -146,19 +204,22 @@ ________________________________________________________________________________
             Console.BackgroundColor = ConsoleColor.DarkGray;
             Console.ForegroundColor = ConsoleColor.White;
             Console.WriteLine (@"
-            --------------------Help Menu--------------------
-            
-            Commands:
-                Use          + (item name)
-                Take (t)     + (item name)
-                Direction (w): move in the desired direction
-                Inv (i)      : display current inventory
-                Look (l)     : look around current room
-                Help (h)     : opens this menu
-                Quit (q)     : quit game
-                
-                
-            -----------------------------------------------");
+_________________________________________________
+                   Help Menu                     
+                                                 
+Commands:                                        
+    Use          + (item name)                   
+    Take (t)     + (item name)                   
+    Direction (w): move in the desired direction 
+    Inv (i)      : display current inventory     
+    Look (l)     : look around current room      
+    Help (h)     : opens this menu               
+    Quit (q)     : quit game                     
+                                                 
+                                                 
+_________________________________________________");
+            Console.BackgroundColor = ConsoleColor.White;
+
         }
         public void BuildRooms () {
             Room room1 = new Room (@"Basement",
@@ -181,7 +242,7 @@ ________________________________________________________________________________
                 @"Final room description. 
             Exits: East",
                 1);
-            Room chest = new Room(@"Old Cedar Chest",
+            Room chest = new Room (@"Old Cedar Chest",
                 @"There is a golden key in here, nice.
             'Close Chest'",
                 0);
@@ -194,10 +255,12 @@ ________________________________________________________________________________
                 Rooms.Add (room3);
                 Rooms.Add (room4);
                 Rooms.Add (room5);
-
+                Rooms.Add (chest);
 
                 AddExits ();
             }
+            CurrentRoom = room1;
+
             void AddExits () {
                 room1.AddDoor ("w", room5);
                 room1.AddDoor ("e", room2);
@@ -206,8 +269,8 @@ ________________________________________________________________________________
                 room3.AddDoor ("n", room2);
                 room3.AddDoor ("e", room4);
                 room4.AddDoor ("w", room3);
-                room4.AddDoor("openchest", chest);
-                chest.AddDoor("closechest", room4);
+                room4.AddDoor ("openchest", chest);
+                chest.AddDoor ("closechest", room4);
                 room5.AddDoor ("e", room1);
 
                 SpawnItems ();
@@ -219,9 +282,8 @@ ________________________________________________________________________________
                 Item ammo = new Item ("Ammunition", "An bottomless box of .45 ammo.");
                 room2.Items.Add (ammo);
                 Item key = new Item ("Key", "Key to that locked door, probably");
-                chest.Items.Add(key);
+                chest.Items.Add (key);
             }
-            CurrentRoom = room1;
         }
     }
 }

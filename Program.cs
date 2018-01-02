@@ -17,6 +17,9 @@ namespace CastleGrimtol {
                 Console.ForegroundColor = ConsoleColor.Black;
                 string userChoice = game.GetUserInput ().ToLower ();
                 string[] userAction = userChoice.Split (' ');
+                if(userChoice == "clear"){
+                    Console.Clear();
+                }
                 Room nextRoom;
                 game.CurrentRoom.Exits.TryGetValue (userAction[0], out nextRoom);
 
@@ -35,7 +38,7 @@ namespace CastleGrimtol {
                     game.Look (game.CurrentRoom);
                 } else if (nextRoom != null) {
                     game.CurrentRoom = nextRoom;
-                    System.Console.WriteLine ("\n");
+                    Console.WriteLine ("\n\n\n");
                     game.Look (game.CurrentRoom);
                 } else {
                     Console.WriteLine ("Not sure what you are trying to do...");

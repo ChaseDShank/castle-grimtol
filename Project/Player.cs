@@ -7,12 +7,14 @@ namespace CastleGrimtol.Game
   {
     public string CharacterName;
     public int Health { get; set; }
+    public int Score {get; set;}
     public List<Item> Inventory { get; set; }
     public int Ammo{get; set;}
     public Player()
     {
       CharacterName = NameCharacter();
       Health = 10;
+      Score = 0;
       Ammo = 2;
       Inventory = new List<Item>();
     }
@@ -23,7 +25,13 @@ namespace CastleGrimtol.Game
       Console.Write(@"
       Your name: ");
       Console.ForegroundColor = ConsoleColor.Blue;
-      string CharacterName = Console.ReadLine();
+      string input = Console.ReadLine();
+      if(input != ""){
+          CharacterName = input;
+      }
+      else{
+          CharacterName = "Dillweed";
+      }
       Console.Clear();
       Console.ForegroundColor = ConsoleColor.Black;
       Console.WriteLine(@"
