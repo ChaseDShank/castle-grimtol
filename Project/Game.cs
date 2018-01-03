@@ -223,10 +223,10 @@ Commands:
     Use          + (item name)                   
     Take (t)     + (item name)                   
     Direction (w): move in the desired direction 
-    Inv (i)      : display current inventory     
-    Look (l)     : look around current room      
-    Help (h)     : opens this menu
-    Restart (r)  : restart game             
+    Inv (i)      : display current inventory          
+    Look (l)     : look around current room            
+    Help (h)     : opens this menu               
+    Restart (r)  : restart game                            
     Quit (q)     : quit game                     
                                                  
                                                  

@@ -38,7 +38,7 @@ namespace CastleGrimtol.Game
       Console.WriteLine(@"
       Okay, {0}, you just woke up in a basement, and you can't remember how you got here...
       
-      You hear a groan coming from the next room
+      You hear a groan coming from the next room.
 
       Your mission is to kill everything.", CharacterName);
       return CharacterName;
