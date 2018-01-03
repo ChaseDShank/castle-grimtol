@@ -22,9 +22,10 @@ namespace CastleGrimtol.Game
     {
       Exits.Add(direction, room);
     }
-    public void UseItem(Item item)
-    {
-      
+
+        public void UseItem(Item item)
+        {
+            throw new NotImplementedException();
+        }
     }
-  }
 }

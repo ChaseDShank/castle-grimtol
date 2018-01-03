@@ -13,13 +13,14 @@ namespace CastleGrimtol.Game
     public Player()
     {
       CharacterName = NameCharacter();
-      Health = 10;
+      Health = 11;
       Score = 0;
       Ammo = 2;
       Inventory = new List<Item>();
     }
     public string NameCharacter()
     {
+      Console.ForegroundColor = ConsoleColor.Black;
       Console.WriteLine(@"
       What do you want to be called?");
       Console.Write(@"
@@ -44,7 +45,9 @@ namespace CastleGrimtol.Game
 
       You feel like death.
       
-      You hear a groan coming from the next room", CharacterName);
+      You hear a groan coming from the next room
+
+      Your mission is to kill everything.", CharacterName);
       return CharacterName;
     }
     public void ShowInventory(Player player)

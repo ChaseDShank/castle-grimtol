@@ -16,9 +16,8 @@ namespace CastleGrimtol.Game {
             Rooms = new List<Room> ();
             Console.WriteLine ("\n\n\nPress 'ENTER' to continue");
             string input = Console.ReadLine ();
-            if (input != null) {
-                Help ();
-            }
+            Help ();
+            
         }
         public string GetUserInput () {
             Console.ForegroundColor = ConsoleColor.Black;
@@ -29,6 +28,21 @@ namespace CastleGrimtol.Game {
             return input;
         }
 
+        public void PromptReset(){
+            Console.Clear();
+            Console.ForegroundColor = ConsoleColor.Black;
+            Console.Write(@"
+            Are you sure you want to restart game? ");
+            Console.ForegroundColor = ConsoleColor.Green;
+            string pick = Console.ReadLine();
+            if(pick == "yes" || pick == "y"){
+                Reset();
+            }
+            else{
+                Console.ForegroundColor = ConsoleColor.Black;
+                Console.WriteLine("ok");
+            }
+        }
         public void Reset () {
             Playing = true;
 
@@ -95,7 +109,7 @@ namespace CastleGrimtol.Game {
             if (input == "y" || input == "yes") {
                 Console.Clear ();
                 Console.WriteLine (@"
-            Goodbye {0}, sucks to suck.", CurrentPlayer.CharacterName);
+            Goodbye {0}.", CurrentPlayer.CharacterName);
                 Console.WriteLine (@"
             
             Final Health: {0}
@@ -126,7 +140,6 @@ namespace CastleGrimtol.Game {
             }
             Playing = false;
         }
-
         public void Lose () {
             Console.Clear ();
             Console.WriteLine (@"
@@ -137,7 +150,7 @@ namespace CastleGrimtol.Game {
             Playing = false;
         }
         public void CheckScore () {
-            if (CurrentPlayer.Score == 4) {
+            if (CurrentPlayer.Score == 10) {
                 Win ();
             }
             if (CurrentPlayer.Health == 0) {
@@ -166,7 +179,6 @@ namespace CastleGrimtol.Game {
             Console.WriteLine (@"
             Health: {0}
             Score:  {1}", CurrentPlayer.Health, CurrentPlayer.Score);
-            CheckScore ();
             Console.Beep (400, 50);
 
         }
@@ -213,7 +225,8 @@ Commands:
     Direction (w): move in the desired direction 
     Inv (i)      : display current inventory     
     Look (l)     : look around current room      
-    Help (h)     : opens this menu               
+    Help (h)     : opens this menu
+    Restart (r)  : restart game             
     Quit (q)     : quit game                     
                                                  
                                                  
@@ -222,29 +235,32 @@ _________________________________________________");
 
         }
         public void BuildRooms () {
-            Room room1 = new Room (@"Basement",
+            Room room1 = new Room (@"Room 1",
                 @"It's pretty filthy down here, not much to look at besides your pool of vomit.
             Exits: EAST & WEST",
                 0);
-            Room room2 = new Room (@"fuckery",
-                @"Room 2 description. 
+            Room room2 = new Room (@"Room 2",
+                @"A dimly lit room, with blood on the walls. 
             Exits: South, West",
                 2);
             Room room3 = new Room (@"Room 3",
-                @"Room 3 description. 
+                @"Another dimly lit room with even more blood on the walls. 
             Exits: North, East",
                 5);
             Room room4 = new Room (@"Room 4",
-                @"Room 4 description There appears to be a Chest in the corner. 
-            Exits: West",
+                @"Room 4 description There appears to be a Chest in the corner.
+            Exits: West
+                                    *hint: 'openchest'  
+            ",
                 2);
             Room room5 = new Room (@"Room 5",
-                @"Final room description. 
+                @"Where did this room come from?
+                
             Exits: East",
                 1);
             Room chest = new Room (@"Old Cedar Chest",
                 @"There is a golden key in here, nice.
-            'Close Chest'",
+            *hint: 'closechest'",
                 0);
 
             AddRooms ();
