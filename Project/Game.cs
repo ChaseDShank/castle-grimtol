@@ -12,6 +12,7 @@ namespace CastleGrimtol.Game {
             CurrentPlayer = new Player ();
             if (CurrentPlayer.CharacterName == "D$") {
                 Win ();
+                DMONEY();
             }
             Rooms = new List<Room> ();
             Console.WriteLine ("\n\n\nPress 'ENTER' to continue");
@@ -19,6 +20,12 @@ namespace CastleGrimtol.Game {
             Help ();
             
         }
+        public void DMONEY(){
+            Console.WriteLine("Score: {0}", CurrentPlayer.Score);
+            CurrentPlayer.Score ++;
+        DMONEY();
+        }
+        
         public string GetUserInput () {
             Console.ForegroundColor = ConsoleColor.Black;
             Console.BackgroundColor = ConsoleColor.White;
@@ -224,7 +231,7 @@ Commands:
     Take (t)     + (item name)                   
     Direction (w): move in the desired direction 
     Inv (i)      : display current inventory          
-    Look (l)     : look around current room            
+    Look (l)     : look around current room      
     Help (h)     : opens this menu               
     Restart (r)  : restart game                            
     Quit (q)     : quit game                     

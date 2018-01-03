@@ -35,9 +35,10 @@ namespace CastleGrimtol {
                     game.Help ();
                 } else if(userAction[0] == "restart" || userAction[0] == "r"){
                     game.PromptReset();
-                }else if (userAction[0] == "take" && userAction[1] != null) {
+                } else if (userAction[0] == "take" && userAction[1] != null) {
                     game.TakeItem (userAction[1]);
-                } else if (userAction[0] == "inventory" || userAction[0] == "inv" || userAction[0] == "i") {
+                }
+                  else if (userAction[0] == "inventory" || userAction[0] == "inv" || userAction[0] == "i") {
                     game.CurrentPlayer.ShowInventory (game.CurrentPlayer);
                 } else if (userAction[0] == "use" || userAction[0] == "u") {
                     game.UseItem (userAction[1]);
