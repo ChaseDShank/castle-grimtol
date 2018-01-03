@@ -37,13 +37,6 @@ namespace CastleGrimtol.Game
       Console.ForegroundColor = ConsoleColor.Black;
       Console.WriteLine(@"
       Okay, {0}, you just woke up in a basement, and you can't remember how you got here...
-      The florescent lights are so bright, and the constant 'bzzzz' is only worsening your headache. 
-      A raunchy scent triggers a fleeting memory into last night's terrible scene.
-
-      You open your eyes and see that you've been sleeping in - what seems to be, rather -
-      what you hope to be, your own vommit.
-
-      You feel like death.
       
       You hear a groan coming from the next room
 
