@@ -40,6 +40,8 @@ namespace CastleGrimtol.Game
       
       You hear a groan coming from the next room.
 
+      Your gut is telling you to go EAST.
+
       Your mission is to kill everything.", CharacterName);
       return CharacterName;
     }

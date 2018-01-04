@@ -5,6 +5,7 @@ using CastleGrimtol.Game;
 namespace CastleGrimtol {
     public class Program {
         public static void Main (string[] args) {
+            Console.BackgroundColor = ConsoleColor.White;
             Game.Game game = new Game.Game ();
             game.Playing = true;
 
